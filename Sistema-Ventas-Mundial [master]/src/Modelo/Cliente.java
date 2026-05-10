@@ -48,6 +48,17 @@ public class Cliente {
         this.fecha_registro = fecha_registro;
     }
 
+    public Cliente(int id, String nombre, String apellido, String telefono, String email, String direccion, String dpi, Date fecha_nacimiento) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.telefono = telefono;
+        this.email = email;
+        this.direccion = direccion;
+        this.dpi = dpi;
+        this.fecha_nacimiento = fecha_nacimiento;
+    }
+
     public int getId() {
         return id;
     }

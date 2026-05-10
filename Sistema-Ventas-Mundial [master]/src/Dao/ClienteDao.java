@@ -5,6 +5,7 @@
 package Dao;
 import Modelo.Cliente;
 import Conexion.CreateConnection;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ public class ClienteDao {
     
     public boolean insertar(Cliente cliente) {
        
-        String sql = "INSERT INTO cliente (nombre, apellido, telefono, email, direccion, dpi, fecha_nacimiento) VALUES (?,?,?,?,?,?,?,)";
+        String sql = "INSERT INTO cliente (nombre, apellido, telefono, email, direccion, dpi, fecha_nacimiento) VALUES (?,?,?,?,?,?,?)";
         try(Connection cn = con.getConnection();
              PreparedStatement ps = cn.prepareStatement(sql)) {
             
