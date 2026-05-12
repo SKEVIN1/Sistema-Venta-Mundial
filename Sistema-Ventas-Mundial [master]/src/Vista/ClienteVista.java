@@ -3,13 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Vista;
+import Controller.ClienteController;
+import Modelo.Cliente;
+import java.time.LocalDateTime;
+import java.util.Date;
+import javax.swing.JOptionPane;
 
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author PC
  */
 public class ClienteVista extends javax.swing.JFrame {
-    
+    private final ClienteController controlador = new ClienteController();
+    private final DefaultTableModel modeloTabla = new DefaultTableModel(new Object []{"id " , " nombre " , " apellido " , " telefono " , " email " , " direccion " ," dpi "," fecha_nacimiento ", " fecha_registro "},0);
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ClienteVista.class.getName());
 
     /**
@@ -17,6 +24,18 @@ public class ClienteVista extends javax.swing.JFrame {
      */
     public ClienteVista() {
         initComponents();
+        jtCliente.setModel(modeloTabla);
+        jtCliente.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        
+jtCliente.getColumnModel().getColumn(0).setPreferredWidth(50);
+jtCliente.getColumnModel().getColumn(1).setPreferredWidth(150);
+jtCliente.getColumnModel().getColumn(2).setPreferredWidth(150);
+jtCliente.getColumnModel().getColumn(3).setPreferredWidth(100);
+jtCliente.getColumnModel().getColumn(4).setPreferredWidth(200);
+jtCliente.getColumnModel().getColumn(5).setPreferredWidth(250);
+jtCliente.getColumnModel().getColumn(6).setPreferredWidth(120);
+jtCliente.getColumnModel().getColumn(7).setPreferredWidth(120);
+jtCliente.getColumnModel().getColumn(8).setPreferredWidth(180);
     }
 
     /**
@@ -47,18 +66,21 @@ public class ClienteVista extends javax.swing.JFrame {
         lblFNacimiento = new javax.swing.JLabel();
         lblFRegistro = new javax.swing.JLabel();
         lblTelefono4 = new javax.swing.JLabel();
+        txtDpi = new javax.swing.JTextField();
+        txtDireccion = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
+        txtTelefono = new javax.swing.JTextField();
+        txtApellido = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
         txtId = new javax.swing.JTextField();
-        txtId2 = new javax.swing.JTextField();
-        txtId3 = new javax.swing.JTextField();
-        txtId4 = new javax.swing.JTextField();
-        txtId5 = new javax.swing.JTextField();
-        txtId6 = new javax.swing.JTextField();
-        txtId7 = new javax.swing.JTextField();
-        txtId8 = new javax.swing.JTextField();
         btnActualizar = new javax.swing.JButton();
         btnConsultar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        txtFN = new com.toedter.calendar.JDateChooser();
+        jdFR = new com.toedter.calendar.JDateChooser();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtCliente = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,12 +89,12 @@ public class ClienteVista extends javax.swing.JFrame {
         panelHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jlTitulo.setBackground(new java.awt.Color(0, 0, 0));
-        jlTitulo.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 36)); // NOI18N
+        jlTitulo.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 34)); // NOI18N
         jlTitulo.setForeground(new java.awt.Color(255, 255, 255));
         jlTitulo.setText("CLIENTE FUTBOLERO MUNDIAL 2026");
         panelHeader.add(jlTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, -20, 620, 120));
 
-        jlTitulo1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 36)); // NOI18N
+        jlTitulo1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 34)); // NOI18N
         jlTitulo1.setText("CLIENTE FUTBOLERO MUNDIAL 2026");
         panelHeader.add(jlTitulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, -30, 620, 150));
 
@@ -185,13 +207,13 @@ public class ClienteVista extends javax.swing.JFrame {
         lblId.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblId.setForeground(new java.awt.Color(255, 255, 255));
         lblId.setText("Nombre");
-        panelHeader.add(lblId, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 90, 30));
+        panelHeader.add(lblId, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 120, 30));
 
         lblApellido.setBackground(new java.awt.Color(255, 255, 255));
         lblApellido.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblApellido.setForeground(new java.awt.Color(255, 255, 255));
         lblApellido.setText("Apellido");
-        panelHeader.add(lblApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 90, 30));
+        panelHeader.add(lblApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 120, 30));
 
         lblDireccion.setBackground(new java.awt.Color(255, 255, 255));
         lblDireccion.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -234,49 +256,203 @@ public class ClienteVista extends javax.swing.JFrame {
         lblTelefono4.setForeground(new java.awt.Color(255, 255, 255));
         lblTelefono4.setText("Telefono");
         panelHeader.add(lblTelefono4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, -1, 30));
-        panelHeader.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 450, 250, 30));
-        panelHeader.add(txtId2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 370, 250, 30));
-        panelHeader.add(txtId3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 330, 250, 30));
-        panelHeader.add(txtId4, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 290, 250, 30));
-        panelHeader.add(txtId5, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 250, 250, 30));
-        panelHeader.add(txtId6, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 210, 250, 30));
-        panelHeader.add(txtId7, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 170, 250, 30));
-        panelHeader.add(txtId8, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 130, 250, 30));
+        panelHeader.add(txtDpi, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 370, 250, 30));
+        panelHeader.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 330, 250, 30));
+        panelHeader.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 290, 250, 30));
+        panelHeader.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 250, 250, 30));
+        panelHeader.add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 210, 250, 30));
+        panelHeader.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 170, 250, 30));
+        panelHeader.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 130, 250, 30));
 
         btnActualizar.setBackground(new java.awt.Color(153, 255, 255));
         btnActualizar.setText("ACTUALIZAR");
-        panelHeader.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 210, 100, 50));
+        btnActualizar.addActionListener(this::btnActualizarActionPerformed);
+        panelHeader.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 210, 110, 50));
 
         btnConsultar.setBackground(new java.awt.Color(255, 51, 0));
         btnConsultar.setForeground(new java.awt.Color(255, 255, 255));
         btnConsultar.setText("CONSULTAR");
-        panelHeader.add(btnConsultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 280, 100, 50));
+        btnConsultar.addActionListener(this::btnConsultarActionPerformed);
+        panelHeader.add(btnConsultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 280, 110, 50));
 
         btnEliminar.setBackground(new java.awt.Color(0, 102, 0));
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar.setText("ELIMINAR");
-        panelHeader.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 350, 100, 50));
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
+        panelHeader.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 350, 110, 50));
 
         jButton4.setBackground(new java.awt.Color(204, 0, 0));
         jButton4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("INSERTAR");
-        panelHeader.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 130, 100, 50));
+        jButton4.addActionListener(this::jButton4ActionPerformed);
+        panelHeader.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 130, 110, 50));
+        panelHeader.add(txtFN, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 413, 250, 30));
+        panelHeader.add(jdFR, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 453, 250, 30));
+
+        jtCliente.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jtCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtClienteMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtCliente);
+
+        panelHeader.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 520, 650, 140));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE)
+            .addComponent(panelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
+            .addComponent(panelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+private void cargarCliente(){
+        modeloTabla.setRowCount(0);
+        for(Cliente cl : controlador.listarCliente()){
+            modeloTabla.addRow(new Object[]{ cl.getId(),
+                cl.getNombre(),
+                cl.getApellido(),
+                cl.getTelefono(),
+                cl.getEmail(),
+                cl.getDireccion(),
+                cl.getDpi(),
+                cl.getFecha_nacimiento(),
+                cl.getFecha_registro()
+                
+            });
+        }
+}
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        controlador.insertarCliente(txtNombre.getText(),
+                txtApellido.getText(), 
+                txtTelefono.getText(),
+                txtEmail.getText(),
+                txtDireccion.getText(), 
+                txtDpi.getText(),
+                txtFN.getDate()
+        );
+        cargarCliente();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+                                          
+    int fila = jtCliente.getSelectedRow();
+    
+    if (fila != -1) {
+        // Obtener el ID de la columna 0
+        int idCliente = Integer.parseInt(jtCliente.getValueAt(fila, 0).toString());
+
+        controlador.actualizarCliente(
+            idCliente,               
+            txtNombre.getText(),
+            txtApellido.getText(),
+            txtTelefono.getText(),
+            txtEmail.getText(),
+            txtDireccion.getText(),
+            txtDpi.getText(),
+            txtFN.getDate()
+        );
+
+        cargarCliente();
+        JOptionPane.showMessageDialog(this, "Cliente actualizado");
+    } else {
+        JOptionPane.showMessageDialog(this, "Seleccione un cliente de la tabla");
+    }
+
+
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        // TODO add your handling code here:
+        cargarCliente();
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+    int fila = jtCliente.getSelectedRow();
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Debe seleccionar una fila de la tabla");
+    } else {
+        // Obtenemos el ID de la columna 0
+        String idString = jtCliente.getValueAt(fila, 0).toString();
+        int idReal = Integer.parseInt(idString);
+        
+        int confirmar = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar al cliente con ID: " + idReal + "?");
+        
+        if (confirmar == JOptionPane.YES_OPTION) {
+
+            controlador.eliminarCliente(idReal); 
+            
+            cargarCliente(); 
+            limpiarCampos(); // Limpiar los cuadros de texto
+            JOptionPane.showMessageDialog(this, "Cliente eliminado con éxito");
+        }
+
+}
+    
+
+    }//GEN-LAST:event_btnEliminarActionPerformed
+private void limpiarCampos() {    
+    txtNombre.setText("");
+    txtApellido.setText("");
+    txtTelefono.setText("");
+    txtEmail.setText("");
+    txtDireccion.setText("");
+    txtDpi.setText("");
+    
+    if (txtFN != null) {
+        txtFN.setDate(null);
+    }
+}
+    private void jtClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtClienteMouseClicked
+        // TODO add your handling code here:                                       
+    int fila = jtCliente.getSelectedRow();
+    if (fila != -1) {
+        
+        // Obtenemos los datos de la fila seleccionada
+        String nombre = jtCliente.getValueAt(fila, 1).toString();
+        String apellido = jtCliente.getValueAt(fila, 2).toString();
+        String telefono = jtCliente.getValueAt(fila, 3).toString();
+        String email = jtCliente.getValueAt(fila, 4).toString();
+        String direccion = jtCliente.getValueAt(fila, 5).toString();
+        String dpi = jtCliente.getValueAt(fila, 6).toString();
+        
+        // Llenamos los campos de texto
+        txtNombre.setText(nombre);
+        txtApellido.setText(apellido);
+        txtTelefono.setText(telefono);
+        txtEmail.setText(email);
+        txtDireccion.setText(direccion);
+        txtDpi.setText(dpi);
+        
+        try {
+            java.util.Date fecha = (java.util.Date) jtCliente.getValueAt(fila, 7);
+            txtFN.setDate(fecha);
+        } catch (Exception e) {
+            System.err.println("Error al cargar fecha: " + e.getMessage());
+        }
+    }
+    
+    }//GEN-LAST:event_jtClienteMouseClicked
 
     /**
      * @param args the command line arguments
@@ -303,6 +479,7 @@ public class ClienteVista extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> new ClienteVista().setVisible(true));
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnConsultar;
@@ -315,8 +492,11 @@ public class ClienteVista extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private com.toedter.calendar.JDateChooser jdFR;
     private javax.swing.JLabel jlTitulo;
     private javax.swing.JLabel jlTitulo1;
+    private javax.swing.JTable jtCliente;
     private javax.swing.JLabel lblApellido;
     private javax.swing.JLabel lblDireccion;
     private javax.swing.JLabel lblDpi;
@@ -327,13 +507,15 @@ public class ClienteVista extends javax.swing.JFrame {
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblTelefono4;
     private javax.swing.JPanel panelHeader;
+    private javax.swing.JTextField txtApellido;
+    private javax.swing.JTextField txtDireccion;
+    private javax.swing.JTextField txtDpi;
+    private javax.swing.JTextField txtEmail;
+    private com.toedter.calendar.JDateChooser txtFN;
     private javax.swing.JTextField txtId;
-    private javax.swing.JTextField txtId2;
-    private javax.swing.JTextField txtId3;
-    private javax.swing.JTextField txtId4;
-    private javax.swing.JTextField txtId5;
-    private javax.swing.JTextField txtId6;
-    private javax.swing.JTextField txtId7;
-    private javax.swing.JTextField txtId8;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
+
+   
 }

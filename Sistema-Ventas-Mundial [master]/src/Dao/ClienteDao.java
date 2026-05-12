@@ -29,7 +29,7 @@ public class ClienteDao {
             ps.setString(4, cliente.getEmail());
             ps.setString(5, cliente.getDireccion());
             ps.setString(6, cliente.getDpi());
-            ps.setObject(7, cliente.getFecha_nacimiento()); 
+           ps.setDate(7, new java.sql.Date(cliente.getFecha_nacimiento().getTime()));
  
             
             return ps.executeUpdate() > 0;
