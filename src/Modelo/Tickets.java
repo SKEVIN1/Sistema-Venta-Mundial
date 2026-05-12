@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class Tickets {
     private int id;
     private int partido_id;
+    private String codigo_ticket;
     private String numero_asiento;
     private String fila;
     private String seccion;
@@ -23,19 +24,11 @@ public class Tickets {
     public Tickets() {
     }
 
-    public Tickets(String numero_asiento, String fila, String seccion, double precio, String estado) {
-        this.numero_asiento = numero_asiento;
-        this.fila = fila;
-        this.seccion = seccion;
-        this.precio = precio;
-        this.estado = estado;
-    }
     
-    
-    
-    public Tickets(int id, int partido_id, String numero_asiento, String fila, String seccion, double precio, String estado, LocalDateTime fechaGeneracion) {
+    public Tickets(int id, int partido_id,  String codigo_ticket,String numero_asiento, String fila, String seccion, double precio, String estado, LocalDateTime fechaGeneracion) {
         this.id = id;
         this.partido_id = partido_id;
+        this.codigo_ticket = codigo_ticket;
         this.numero_asiento = numero_asiento;
         this.fila = fila;
         this.seccion = seccion;
@@ -58,6 +51,14 @@ public class Tickets {
 
     public void setPartido_id(int partido_id) {
         this.partido_id = partido_id;
+    }
+
+    public String getCodigo_ticket() {
+        return codigo_ticket;
+    }
+
+    public void setCodigo_ticket(String codigo_ticket) {
+        this.codigo_ticket = codigo_ticket;
     }
 
     public String getNumero_asiento() {

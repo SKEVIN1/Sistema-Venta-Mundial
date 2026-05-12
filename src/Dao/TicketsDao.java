@@ -6,6 +6,7 @@ package Dao;
 import Conexion.CreateConnection;
 import Modelo.*;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -35,15 +36,13 @@ public class TicketsDao {
 
                 ticket.setId(rs.getInt("id"));
                 ticket.setPartido_id(rs.getInt("partido_id"));
+                 ticket.setCodigo_ticket(rs.getString("codigo_ticket"));
                 ticket.setNumero_asiento(rs.getString("numero_asiento"));
                 ticket.setFila(rs.getString("fila"));
                 ticket.setSeccion(rs.getString("seccion"));
                 ticket.setPrecio(rs.getDouble("precio"));
                 ticket.setEstado(rs.getString("estado"));
-
-                ticket.setFechaGeneracion(
-                        rs.getTimestamp("fecha_generacion")
-                                .toLocalDateTime()
+                ticket.setFechaGeneracion( rs.getTimestamp("fecha_generacion") .toLocalDateTime()
                 );
 
                 lista.add(ticket);
@@ -54,8 +53,7 @@ public class TicketsDao {
 
         } catch (SQLException e) {
 
-            System.out.println("Error al obtener tickets: "
-                    + e.getMessage());
+            System.out.println("Error al obtener tickets: " + e.getMessage());
         }
 
         return lista;
@@ -66,23 +64,29 @@ public class TicketsDao {
     // =====================================================
     public boolean guardar(Tickets ticket) {
 
+        // VALIDAR ASIENTO DUPLICADO
+        if (existeAsiento(ticket.getPartido_id(),
+                ticket.getNumero_asiento())) {
+
+            System.out.println("El asiento ya existe");
+            return false;
+        }
+        
         sql = "Insert into ticket "
-                + "(partido_id, numero_asiento, fila, seccion, precio, estado, fecha_generacion) "
-                + "values(?,?,?,?,?,?,?)";
+                + "(partido_id, numero_asiento, codigo_ticket,fila, seccion, precio, estado, fecha_generacion) "
+                + "values(?,?,?,?,?,?,?,?)";
 
         try (Connection conn = connF.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, ticket.getPartido_id());
             ps.setString(2, ticket.getNumero_asiento());
-            ps.setString(3, ticket.getFila());
-            ps.setString(4, ticket.getSeccion());
-            ps.setDouble(5, ticket.getPrecio());
-            ps.setString(6, ticket.getEstado());
-
-            ps.setTimestamp(
-                    7,
-                    Timestamp.valueOf(ticket.getFechaGeneracion())
+            ps.setString(3, ticket.getCodigo_ticket());
+            ps.setString(4, ticket.getFila());
+            ps.setString(5, ticket.getSeccion());
+            ps.setDouble(6, ticket.getPrecio());
+            ps.setString(7, ticket.getEstado());
+            ps.setTimestamp( 8 ,Timestamp.valueOf(ticket.getFechaGeneracion())
             );
 
             ps.executeUpdate();
@@ -100,6 +104,34 @@ public class TicketsDao {
         return false;
     }
 
+     // =====================================================
+    // VALIDAR ASIENTO DUPLICADO
+    // =====================================================
+    public boolean existeAsiento(int partido_id,
+            String numero_asiento) {
+
+        sql = "Select * from ticket "
+                + "where partido_id=? "
+                + "and numero_asiento=?";
+
+        try (Connection conn = connF.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, partido_id);
+            ps.setString(2, numero_asiento);
+
+            ResultSet rs = ps.executeQuery();
+
+            return rs.next();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    
     // =====================================================
     // CAMBIAR ESTADO DEL TICKET
     // =====================================================
@@ -135,6 +167,7 @@ public class TicketsDao {
 
         sql = "Update ticket Set "
                 + "partido_id=?, "
+                + "codigo_ticket=?, "
                 + "numero_asiento=?, "
                 + "fila=?, "
                 + "seccion=?, "
@@ -146,12 +179,13 @@ public class TicketsDao {
                 PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, ticket.getPartido_id());
-            ps.setString(2, ticket.getNumero_asiento());
-            ps.setString(3, ticket.getFila());
-            ps.setString(4, ticket.getSeccion());
-            ps.setDouble(5, ticket.getPrecio());
-            ps.setString(6, ticket.getEstado());
-            ps.setInt(7, ticket.getId());
+            ps.setString(2, ticket.getCodigo_ticket());
+            ps.setString(3, ticket.getNumero_asiento());
+            ps.setString(4, ticket.getFila());
+            ps.setString(5, ticket.getSeccion());
+            ps.setDouble(6, ticket.getPrecio());
+            ps.setString(7, ticket.getEstado());
+            ps.setInt(8, ticket.getId());
 
             ps.executeUpdate();
 
@@ -169,30 +203,44 @@ public class TicketsDao {
     }
 
     // =====================================================
-    // CONSULTAR TICKET POR ID
+    // CONSULTAR TICKET 
     // =====================================================
-    public boolean consultar(int id) {
+    public Tickets consultar(int id) {
 
-        sql = "Select * from ticket where id=?";
+        sql = "SELECT * FROM ticket WHERE id=?";
+
+        Tickets ticket = null;
 
         try (Connection conn = connF.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
 
-            ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
-            ps.close();
-            conn.close();
+            if (rs.next()) {
 
-            return true;
+                ticket = new Tickets();
+
+                ticket.setId(rs.getInt("id"));
+                ticket.setPartido_id(rs.getInt("partido_id"));
+                ticket.setCodigo_ticket(rs.getString("codigo_ticket"));
+                ticket.setNumero_asiento(rs.getString("numero_asiento"));
+                ticket.setFila(rs.getString("fila"));
+                ticket.setSeccion(rs.getString("seccion"));
+                ticket.setPrecio(rs.getDouble("precio"));
+                ticket.setEstado(rs.getString("estado"));
+
+                ticket.setFechaGeneracion( rs.getTimestamp("fecha_generacion").toLocalDateTime()
+                );
+            }
 
         } catch (SQLException e) {
 
             e.printStackTrace();
         }
 
-        return false;
+        return ticket;
     }
 
     // =====================================================
@@ -219,6 +267,7 @@ public class TicketsDao {
 
                 ticket.setId(rs.getInt("id"));
                 ticket.setPartido_id(rs.getInt("partido_id"));
+                ticket.setCodigo_ticket(rs.getString("codigo_ticket"));
                 ticket.setNumero_asiento(rs.getString("numero_asiento"));
                 ticket.setFila(rs.getString("fila"));
                 ticket.setSeccion(rs.getString("seccion"));
@@ -297,5 +346,86 @@ public class TicketsDao {
 
         return false;
     }
+    // =====================================================
+// GENERAR TICKETS AUTOMATICAMENTE
+// =====================================================
+public boolean generarTickets(int partido_id) {
+
+    String sql = "Insert into ticket "
+            + "(partido_id,codigo_ticket, numero_asiento, fila, seccion, precio, estado, fecha_generacion) "
+            + "values(?,?,?,?,?,?,?,?)";
+
+    try (Connection conn = connF.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        // VIP
+        for (int i = 1; i <= 20; i++) {
+
+            String codigo = "TCK-" + partido_id+ "-A"+ i;
+            
+            ps.setInt(1, partido_id);
+                ps.setString(2, codigo);
+                ps.setString(3, "A" + i);
+                ps.setString(4, "A");
+                ps.setString(5, "VIP");
+                ps.setDouble(6, 500);
+                ps.setString(7, "DISPONIBLE");
+                ps.setTimestamp( 8, Timestamp.valueOf(LocalDateTime.now())
+            );
+
+            ps.executeUpdate();
+        }
+
+        // PREFERENCIAL
+        for (int i = 1; i <= 50; i++) {
+
+            String codigo= "TCK-" + partido_id + "-B"+ i;
+            
+                ps.setInt(1, partido_id);
+                ps.setString(2, codigo);
+                ps.setString(3, "B" + i);
+                ps.setString(4, "B");
+                ps.setString(5, "PREFERENCIAL");
+                ps.setDouble(6, 250);
+                ps.setString(7, "DISPONIBLE");
+                ps.setTimestamp(8,Timestamp.valueOf( LocalDateTime.now())
+            );
+
+            ps.executeUpdate();
+        }
+
+        // ============================================
+        // GENERAL
+        // ============================================
+        for (int i = 1; i <= 100; i++) {
+ 
+            String codigo = "TCK-" + partido_id+ "-C" + i;
+
+                ps.setInt(1, partido_id);
+                ps.setString(2, codigo);
+                ps.setString(3, "C" + i);
+                ps.setString(4, "C");
+                ps.setString(5, "GENERAL");
+                ps.setDouble(6, 100);
+                ps.setString(7, "DISPONIBLE");
+                ps.setTimestamp( 8, Timestamp.valueOf( LocalDateTime.now())
+            );
+
+            ps.executeUpdate();
+        }
+
+        ps.close();
+        conn.close();
+
+        return true;
+
+    } catch (SQLException e) {
+
+        e.printStackTrace();
+    }
+
+    return false;
+}
+    
 }
 
