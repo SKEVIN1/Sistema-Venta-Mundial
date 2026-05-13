@@ -34,7 +34,7 @@ public class TicketsDao {
 
                 Tickets ticket = new Tickets();
 
-                ticket.setId(rs.getInt("id"));
+                ticket.setId_ticket(rs.getInt("id"));
                 ticket.setPartido_id(rs.getInt("partido_id"));
                  ticket.setCodigo_ticket(rs.getString("codigo_ticket"));
                 ticket.setNumero_asiento(rs.getString("numero_asiento"));
@@ -185,7 +185,7 @@ public class TicketsDao {
             ps.setString(5, ticket.getSeccion());
             ps.setDouble(6, ticket.getPrecio());
             ps.setString(7, ticket.getEstado());
-            ps.setInt(8, ticket.getId());
+            ps.setInt(8, ticket.getId_ticket());
 
             ps.executeUpdate();
 
@@ -222,7 +222,7 @@ public class TicketsDao {
 
                 ticket = new Tickets();
 
-                ticket.setId(rs.getInt("id"));
+                ticket.setId_ticket(rs.getInt("id"));
                 ticket.setPartido_id(rs.getInt("partido_id"));
                 ticket.setCodigo_ticket(rs.getString("codigo_ticket"));
                 ticket.setNumero_asiento(rs.getString("numero_asiento"));
@@ -265,7 +265,7 @@ public class TicketsDao {
 
                 Tickets ticket = new Tickets();
 
-                ticket.setId(rs.getInt("id"));
+                ticket.setId_ticket(rs.getInt("id"));
                 ticket.setPartido_id(rs.getInt("partido_id"));
                 ticket.setCodigo_ticket(rs.getString("codigo_ticket"));
                 ticket.setNumero_asiento(rs.getString("numero_asiento"));

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * @author arten
  */
 public class Tickets {
-    private int id;
+    private int id_ticket;
     private int partido_id;
     private String codigo_ticket;
     private String numero_asiento;
@@ -25,8 +25,8 @@ public class Tickets {
     }
 
     
-    public Tickets(int id, int partido_id,  String codigo_ticket,String numero_asiento, String fila, String seccion, double precio, String estado, LocalDateTime fechaGeneracion) {
-        this.id = id;
+    public Tickets(int id_ticket, int partido_id,  String codigo_ticket,String numero_asiento, String fila, String seccion, double precio, String estado, LocalDateTime fechaGeneracion) {
+        this.id_ticket = id_ticket;
         this.partido_id = partido_id;
         this.codigo_ticket = codigo_ticket;
         this.numero_asiento = numero_asiento;
@@ -37,12 +37,12 @@ public class Tickets {
         this.fechaGeneracion = fechaGeneracion;
     }
 
-    public int getId() {
-        return id;
+    public int getId_ticket() {
+        return id_ticket;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId_ticket(int id_ticket) {
+        this.id_ticket = id_ticket;
     }
 
     public int getPartido_id() {
