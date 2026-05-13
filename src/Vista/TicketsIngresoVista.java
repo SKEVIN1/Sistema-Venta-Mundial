@@ -69,6 +69,7 @@ public class TicketsIngresoVista extends javax.swing.JFrame {
         lbCodigo.setText("Código Ticket:");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(this::jComboBox1ActionPerformed);
 
         lbCodigo1.setText("No. Asiento:");
 
@@ -207,6 +208,12 @@ public class TicketsIngresoVista extends javax.swing.JFrame {
     private void TxtNoAsiento2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtNoAsiento2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TxtNoAsiento2ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        
+        //Agreagar PArtidos plis
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
