@@ -81,7 +81,7 @@ public class VentasDao {
             }
 
             // =============================================
-            // INSERTAR DETALLES
+            // INSERTAR DETALLES DE VENTA
             // =============================================
             for (DetalleVenta d : detalles) {
 
